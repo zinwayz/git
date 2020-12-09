@@ -345,6 +345,27 @@ void git_config_push_parameter(const char *text)
 	strbuf_release(&env);
 }
 
+void git_config_push_env(const char *spec)
+{
+	struct strbuf buf = STRBUF_INIT;
+	const char *env_name;
+	const char *env_value;
+
+	env_name = strrchr(spec, '=');
+	if (!env_name)
+		die("invalid config format: %s", spec);
+	env_name++;
+
+	env_value = getenv(env_name);
+	if (!env_value)
+		die("config variable missing for '%s'", env_name);
+
+	strbuf_add(&buf, spec, env_name - spec);
+	strbuf_addstr(&buf, env_value);
+	git_config_push_parameter(buf.buf);
+	strbuf_release(&buf);
+}
+
 static inline int iskeychar(int c)
 {
 	return isalnum(c) || c == '-';
