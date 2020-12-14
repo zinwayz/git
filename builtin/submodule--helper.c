@@ -19,7 +19,6 @@
 #include "diffcore.h"
 #include "diff.h"
 #include "object-store.h"
-#include "dir.h"
 #include "advice.h"
 
 #define OPT_QUIET (1 << 0)
@@ -3185,6 +3184,7 @@ static struct cmd_struct commands[] = {
 	{"config", module_config, 0},
 	{"set-url", module_set_url, 0},
 	{"set-branch", module_set_branch, 0},
+	{"add", module_add, SUPPORT_SUPER_PREFIX},
 };
 
 int cmd_submodule__helper(int argc, const char **argv, const char *prefix)
