@@ -9,6 +9,7 @@ static void suppress(struct rev_info *revs)
 	revs->combine_merges = 0;
 	revs->dense_combined_merges = 0;
 	revs->combined_all_paths = 0;
+	revs->combined_imply_patch = 0;
 }
 
 static void set_separate(struct rev_info *revs)
@@ -77,10 +78,14 @@ int diff_merges_parse_opts(struct rev_info *revs, const char **argv)
 
 	if (!strcmp(arg, "-m"))
 		set_m(revs);
-	else if (!strcmp(arg, "-c"))
+	else if (!strcmp(arg, "-c")) {
 		set_combined(revs);
-	else if (!strcmp(arg, "--cc"))
+		revs->combined_imply_patch = 1;
+	}
+	else if (!strcmp(arg, "--cc")) {
 		set_dense_combined(revs);
+		revs->combined_imply_patch = 1;
+	}
 	else if (!strcmp(arg, "--no-diff-merges"))
 		suppress(revs);
 	else if (!strcmp(arg, "--combined-all-paths"))
@@ -127,8 +132,9 @@ void diff_merges_setup_revs(struct rev_info *revs)
 		revs->first_parent_merges = 0;
 	if (revs->combined_all_paths && !revs->combine_merges)
 		die("--combined-all-paths makes no sense without -c or --cc");
-	if (revs->combine_merges) {
+	if (revs->combine_merges)
 		revs->diff = 1;
+	if (revs->combined_imply_patch) {
 		/* Turn --cc/-c into -p --cc/-c when -p was not given */
 		if (!revs->diffopt.output_format)
 			revs->diffopt.output_format = DIFF_FORMAT_PATCH;
