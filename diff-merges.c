@@ -59,11 +59,14 @@ static void set_diff_merges(struct rev_info *revs, const char *optarg)
 	if (0) ;
 	else if (!strcmp(optarg, "first") || !strcmp(optarg, "first-parent"))
 		set_first_parent(revs);
-	else if (!strcmp(optarg, "sep")   || !strcmp(optarg, "separate"))
+	else if (!strcmp(optarg, "sep")   || !strcmp(optarg, "separate") ||
+		 !strcmp(optarg, "m"))
 		set_separate(revs);
-	else if (!strcmp(optarg, "comb")  || !strcmp(optarg, "combined"))
+	else if (!strcmp(optarg, "comb")  || !strcmp(optarg, "combined") ||
+		 !strcmp(optarg, "c"))
 		set_combined(revs);
-	else if (!strcmp(optarg, "dense") || !strcmp(optarg, "dense-combined"))
+	else if (!strcmp(optarg, "dense") || !strcmp(optarg, "dense-combined") ||
+		 !strcmp(optarg, "cc"))
 		set_dense_combined(revs);
 	else
 		die(_("unknown value for --diff-merges: %s"), optarg);
