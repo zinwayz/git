@@ -89,6 +89,7 @@ struct config_options {
 	unsigned int system_gently : 1;
 	const char *commondir;
 	const char *git_dir;
+	const char *pretend_gitdir;
 	config_parser_event_fn_t event_fn;
 	void *event_fn_data;
 	enum config_error_action {
