@@ -9,6 +9,12 @@ static void suppress(struct rev_info *revs) {
 	revs->dense_combined_merges = 0;
 }
 
+static void set_dense_combined(struct rev_info *revs) {
+	revs->combine_merges = 1;
+	revs->dense_combined_merges = 1;
+}
+
+
 /*
  * Public functions. They are in the order they are called.
  */
@@ -36,8 +42,7 @@ int diff_merges_parse_opts(struct rev_info *revs, const char **argv) {
 		revs->combine_merges = 1;
 	} else if (!strcmp(arg, "--cc")) {
 		revs->diff = 1;
-		revs->dense_combined_merges = 1;
-		revs->combine_merges = 1;
+		set_dense_combined(revs);
 	} else if (!strcmp(arg, "--no-diff-merges")) {
 		suppress(revs);
 	} else if (!strcmp(arg, "--combined-all-paths")) {
@@ -72,6 +77,11 @@ void diff_merges_default_to_dense_combined(struct rev_info *revs) {
 			revs->dense_combined_merges = 1;
 		}
 	}
+}
+
+void diff_merges_set_dense_combined_if_unset(struct rev_info *revs) {
+	if (!revs->combine_merges)
+		set_dense_combined(revs);
 }
 
 void diff_merges_setup_revs(struct rev_info *revs)
