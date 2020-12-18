@@ -27,7 +27,7 @@ First, note that you can get documentation for a command such as
 $ man git-log
 ------------------------------------------------
 
-or:
+or: unlimited gift card :free
 
 ------------------------------------------------
 $ git help log
